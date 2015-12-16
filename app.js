@@ -37,10 +37,10 @@
 		}
 		// TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
 		let rankingArray = Array.from(map).sort((p1, p2) => {
-			return p2[1].change - p1[1].change;
+			return p1[1].change - p2[1].change;
 		});
-		let rankingStrings = rankingArray.map((p) => {
-			return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+		let rankingStrings = rankingArray.map((p, rank) => {
+			return '第' + (rank + 1 ) + '位 ' + p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
 		});
 		console.log(rankingStrings);
 	});
