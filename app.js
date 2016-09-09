@@ -5,6 +5,7 @@ const rs = fs.ReadStream('./popu-pref.csv');
 const rl = readline.createInterface({ 'input': rs, 'output': {} });
 
 const map = new Map(); // key: 都道府県 value: 集計データのオブジェクト
+
 rl.on('line', (line) => {
     const columns = line.split(',');
     const year = columns[0];
@@ -29,6 +30,7 @@ rl.on('line', (line) => {
     }
 });
 rl.resume();
+
 rl.on('close', () => {
     for (let pair of map) {
         const value = pair[1];
@@ -36,10 +38,16 @@ rl.on('close', () => {
     }
     // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
     const rankingArray = Array.from(map).sort((p1, p2) => {
-        return p2[1].change - p1[1].change;
+        //return p2[1].change - p1[1].change;
+        return p1[1].change - p2[1].change;        
     });
-    const rankingStrings = rankingArray.map((p) => {
-        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+
+//    const rankingStrings = rankingArray.map((p) => {
+//        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+//    });
+    const rankingStrings = rankingArray.map((p, i) => {
+        return (i + 1) + ': ' + p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
     });
+
     console.log(rankingStrings);
 });
