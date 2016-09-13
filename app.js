@@ -7,10 +7,10 @@ const rl = readline.createInterface({ 'input': rs, 'output': {} });
 const map = new Map(); // key: 都道府県 value: 集計データのオブジェクト
 rl.on('line', (line) => {
     const columns = line.split(',');
-    const year = columns[0];
+    const year = parseInt(columns[0]);
     const prefecture = columns[2];
-    const popu = columns[7];
-    if (year === '2010' || year === '2015') {
+    const popu = parseInt(columns[7]);
+    if (year === 2010 || year === 2015) {
         let value = map.get(prefecture);
         if (!value) {
             value = {
@@ -19,11 +19,11 @@ rl.on('line', (line) => {
                 change: null
             };
         }
-        if (year === '2010') {
-            value.p10 += parseInt(popu);
+        if (year === 2010) {
+            value.p10 += popu;  // value.p10 = value.p10 + popu と同じ意味
         }
-        if (year === '2015') {
-            value.p15 += parseInt(popu);
+        if (year === 2015) {
+            value.p15 += popu;  // データが男と女で分かれてるから足し合わせる処理
         }
         map.set(prefecture, value);
     }
@@ -34,12 +34,35 @@ rl.on('close', () => {
         const value = pair[1];
         value.change = value.p15 / value.p10;
     }
-    // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
+
     const rankingArray = Array.from(map).sort((p1, p2) => {
-        return p2[1].change - p1[1].change;
+        return p1[1].change - p2[1].change;
     });
-    const rankingStrings = rankingArray.map((p) => {
-        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+    const rankingStrings = rankingArray.map((p, i) => {
+
+//  出力が読みやすくなるように，頑張って整形してみました!
+
+        const prefecture = p[0];
+        if (prefecture !== '鹿児島県' && prefecture !== '和歌山県' && prefecture !== '神奈川県' ){
+            p[0] = ( prefecture + '　' ) ; // ３文字の都道府県は全角スペースをつける
+        }
+
+        if (p[1].p10 < 100000){
+            p[1].p10 = (' ' + p[1].p10);    // 人口が 5ケタなら 先頭にスペースを追加
+        }
+        
+        if (p[1].p15 < 100000){
+            p[1].p15 = (' ' + p[1].p15);
+        }
+
+        if ((i + 1) < 10){      // ランキングの順位が 10位未満ならスペースをはさむ。まぁ i < 9 なんだけど。
+            return '第 ' + (i + 1) + '位  ' + p[0] + ': ' + p[1].p10 + ' => ' + p[1].p15 + ' 変化率:' + p[1].change;
+        } else {
+            return '第' + (i + 1) + '位  ' + p[0] + ': ' + p[1].p10 + ' => ' + p[1].p15 + ' 変化率:' + p[1].change;
+            }
     });
-    console.log(rankingStrings);
+
+//   rl.resume();   // close もイベントなら先に書いても動くよね？　と思ってやってみた痕跡。　ちゃんと動いた。
+
+    console.log(rankingStrings);    
 });
