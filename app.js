@@ -34,12 +34,13 @@ rl.on('close', () => {
         const value = pair[1];
         value.change = value.p15 / value.p10;
     }
-    // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
     const rankingArray = Array.from(map).sort((p1, p2) => {
-        return p2[1].change - p1[1].change;
+        return p1[1].change - p2[1].change;  //ここで昇順にソートする
     });
-    const rankingStrings = rankingArray.map((p) => {
-        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+    const rankingStrings = rankingArray.map((p,q) => {
+        q = q + 1;
+        return '[ 第' + q + '位 ] ' + p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+        //人が減った割合ランキングの順位を追加
     });
     console.log(rankingStrings);
 });
