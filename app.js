@@ -36,10 +36,11 @@ rl.on('close', () => {
     }
     // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
     const rankingArray = Array.from(map).sort((p1, p2) => {
-        return p2[1].change - p1[1].change;
+        return p1[1].change - p2[1].change; //減った割合の順（昇順）に変更
     });
-    const rankingStrings = rankingArray.map((p) => {
-        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
+    const rankingStrings = rankingArray.map((p,i) => {
+        const rank = i + 1; //順位用の変数を作成
+        return rank + '位: ' + p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
     });
     console.log(rankingStrings);
 });
