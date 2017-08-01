@@ -29,17 +29,17 @@ rl.on('line', (line) => {
     }
 });
 rl.resume();
-rl.on('close', () => {
-    for (let pair of map) {
+rl.on('close',() => {
+    for (let pair of map){ //人口の変化率を求める
         const value = pair[1];
-        value.change = value.p15 / value.p10;
+        value.change = value.p15/value.p10;
     }
-    // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
-    const rankingArray = Array.from(map).sort((p1, p2) => {
-        return p2[1].change - p1[1].change;
+    const rankingArray = Array.from(map).sort((p1,p2) => {
+        return p1[1].change - p2[1].change;　//昇順で並び替える
     });
-    const rankingStrings = rankingArray.map((p) => {
-        return p[0] + ': ' + p[1].p10 + '=>' + p[1].p15 + ' 変化率:' + p[1].change;
-    });
-    console.log(rankingStrings);
+    const rankingString = rankingArray.map((p,i) => {
+        return (i+1) + "位 " + p[0] + ': ' + p[1].p10 + " => " + p[1].p15+' 変化率:'+ p[1].change;
+    });//整形，順位表示
+
+    console.log(rankingString);
 });
