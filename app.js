@@ -39,7 +39,7 @@ rl.on('close', () => {
         return pair1[1].change - pair2[1].change;
     });
     const rankingStrings = rankingArray.map((pair,i) => {
-        return '第 '+ i+ ' は、 ' + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
+        return '第 '+ i+ ' 位は、 ' + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
     });
     console.log(rankingStrings);
 });
