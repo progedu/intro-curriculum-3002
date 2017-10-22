@@ -30,16 +30,15 @@ rl.on('line', (line) => {
 });
 rl.resume();
 rl.on('close', () => {
-    for (let pair of map) {
-        const value = pair[1];
+    for (let [key, value] of map) {
         value.change = value.popu15 / value.popu10;
     }
-    // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
-    const rankingArray = Array.from(map).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+    const rankingArray = Array.from(map).sort(([key1, value1], [key2, value2]) => {
+        return value1.change - value2.change;
     });
-    const rankingStrings = rankingArray.map((pair) => {
-        return pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
+    const rankingStrings = rankingArray.map(([key, value], index) => {
+        const rank = index + 1
+        return `${rank}位: ${key}: ${value.popu10}=>${value.popu15} 変化率:${value.change}`;
     });
     console.log(rankingStrings);
 });
