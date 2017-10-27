@@ -39,7 +39,7 @@ rl.on('line', (lineString) => {
 //ストリームに情報を流し始める処理
 rl.resume();
 
-//rlオブジェクトで lineというイベントが発生したらコンソールに出力
+//rlオブジェクトで closeというイベントが発生したらコンソールに出力
 rl.on('close', () => {
     for (let pair of map) { // of の前に与えられた変数に代入 mapからpairに代入ループ
         const value = pair[1];
