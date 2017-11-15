@@ -42,8 +42,16 @@ rl.on('close', () => {
         value.change = value.popu15 / value.popu10;
     }
     // 変化率を減った割合にランク付け
-    const rankingArray = Array.from(map).sort((pair1, pair2) => pair1[1].change - pair2[1].change);
+    const rankingArrayAsc = Array.from(map).sort((pair1, pair2) => pair1[1].change - pair2[1].change);
     // 結果文字列に変換
-    const rankingStrings = rankingArray.map((pair, rank) => (rank + 1) + '位 ' + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change);
-    console.log(rankingStrings);
+    const rankingStringsAsc = rankingArrayAsc.map((pair, rank) => (rank + 1) + '位 ' + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change);
+    console.log("昇順")
+    console.log(rankingStringsAsc);
+
+    // 変化率を増えた割合にランク付け
+    const rankingArrayDesc = Array.from(map).sort((p1, p2) => p2[1].change - p1[1].change);
+    // 結果文字列に変換
+    const rankingStringsDesc = rankingArrayDesc.map((pair, rank) => (rank + 1) + '位 ' + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change);
+    console.log("降順");
+    console.log(rankingStringsDesc);
 });
