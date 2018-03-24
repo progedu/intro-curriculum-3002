@@ -35,11 +35,11 @@ rl.on('close', () => {
         value.change = value.popu15 / value.popu10;
     }
     // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
-    const rankingArray = Array.from(map).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+    const rankingArray = Array.from(map).sort((pair2, pair1) => {
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map((pair) => {
-        return pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
+    const rankingStrings = rankingArray.map((pair, i) => {
+        return pair[i + 1] + '位 ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
     });
     console.log(rankingStrings);
 });
