@@ -34,7 +34,7 @@ rl.on('close', () => {
         const value = pair[1];
         value.change = value.popu15 / value.popu10;
     }
-    // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
+    // 減った割合のランキングにして順位も一緒に出力する
     const rankingArray = Array.from(map).sort((pair1, pair2) => {
         return pair1[1].change - pair2[1].change;
     });
