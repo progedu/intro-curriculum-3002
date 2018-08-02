@@ -36,10 +36,11 @@ rl.on('close', () => {
     }
     // TODO 減った割合のランキングにして順位も一緒に出力するようにしてください
     const rankingArray = Array.from(map).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map((pair) => {
-        return pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
+    const rankingStrings = rankingArray.map((pair, rank) => {
+        return "[" + (rank + 1) + "位] " + pair[0] + ': ' + pair[1].popu10 + '=>' + pair[1].popu15 + ' 変化率:' + pair[1].change;
     });
+    console.log("2010年から2015年にかけて15~19歳の人が減った割合の都道府県ランキング");
     console.log(rankingStrings);
 });
