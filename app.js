@@ -41,5 +41,6 @@ rl.on('close', () => {
         const rank = key + 1;
         return '第' + rank + '位 ' + keyAndValue[0] + ': ' + keyAndValue[1].popu10 + '=>' + keyAndValue[1].popu15 + ' 変化率:' + keyAndValue[1].change;
     });
+    console.log('人口が減った割合ランキング');
     console.log(rankingStrings);
 });
