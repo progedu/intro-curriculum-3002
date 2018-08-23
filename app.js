@@ -7,10 +7,10 @@ const rl = readline.createInterface({ 'input': rs, 'output': {} });
 const map = new Map(); // key: 都道府県 value: 集計データのオブジェクト
 rl.on('line', (line) => {
     const columns = line.split(',');
-    const year = columns[0];
+    const year = parseInt(columns[0], 10);
     const prefecture = columns[2];
-    const popu = columns[7];
-    if (year === '2010' || year === '2015') {
+    const popu = parseInt(columns[7], 10);
+    if (year === 2010 || year === 2015) {
         let value = map.get(prefecture);
         if (!value) {
             value = {
@@ -19,11 +19,11 @@ rl.on('line', (line) => {
                 change: null
             };
         }
-        if (year === '2010') {
-            value.popu10 += parseInt(popu);
+        if (year === 2010) {
+            value.popu10 += popu;
         }
-        if (year === '2015') {
-            value.popu15 += parseInt(popu);
+        if (year === 2015) {
+            value.popu15 += popu;
         }
         map.set(prefecture, value);
     }
