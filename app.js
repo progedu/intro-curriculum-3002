@@ -32,7 +32,7 @@ rl.on('line', (line) => {
         if (year === 2015) {
             value.popu15 += popu;
         }
-        map.set(prefecture, value);// 都道府県のデータを map に設定
+        map.set(prefecture, value); // 都道府県のデータを map に設定
     }
 });
 rl.resume(); // Stream に情報を流し始める
@@ -43,7 +43,7 @@ rl.on('close', () => {
         const value = keyAndValue[1];
         value.change = value.popu15 / value.popu10; // 人口の変化率を代入
     }
-    // 人口が増えた順に入れ替える
+    // 人口が減った順に入れ替える
     const rankingArray = Array.from(map).sort((pair1, pair2) => {
         return pair1[1].change - pair2[1].change;
     });
