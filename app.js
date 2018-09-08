@@ -35,10 +35,12 @@ rl.on('close', () => {
         value.change = value.popu15 / value.popu10;
     }
     const rankingArray = Array.from(map).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+        // 変化率の降順に出力させる
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map((keyAndValue) => { // keyAndValue の添え字 0 にキー、1 に値が入っている
-        return keyAndValue[0] + ': ' + keyAndValue[1].popu10 + '=>' + keyAndValue[1].popu15 + ' 変化率:' + keyAndValue[1].change;
+    const rankingStrings = rankingArray.map((keyAndValue, rank) => { // keyAndValue の添え字 0 にキー、1 に値が入っている
+        // rankは添字なので順位を表すには+1する
+        return (rank + 1) + '位 - ' + keyAndValue[0] + ': ' + keyAndValue[1].popu10 + '=>' + keyAndValue[1].popu15 + ' 変化率:' + keyAndValue[1].change;
     });
     console.log(rankingStrings);
 });
