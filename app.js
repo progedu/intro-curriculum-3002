@@ -30,15 +30,14 @@ rl.on('line', (line) => {
 });
 rl.resume();
 rl.on('close', () => {
-    for (let keyAndValue of map) { // keyAndValue の添え字 0 にキー、1 に値が入っている
-        const value = keyAndValue[1];
+    for (let [key, value] of prefectureDataMap){
         value.change = value.popu15 / value.popu10;
     }
-    const rankingArray = Array.from(map).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+    const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map((keyAndValue) => { // keyAndValue の添え字 0 にキー、1 に値が入っている
-        return keyAndValue[0] + ': ' + keyAndValue[1].popu10 + '=>' + keyAndValue[1].popu15 + ' 変化率:' + keyAndValue[1].change;
+    const rankingStrings = rankingArray.map(([key, value], i) => {
+        return (i + 1) + '位 ' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
     });
     console.log(rankingStrings);
 });
