@@ -30,7 +30,7 @@ rl.on('line', (line) => {
 });
 rl.resume();
 rl.on('close', () => {
-    for (let pair of map) {
+    for (let pair of prefectureDataMap) {
         const value = pair[1];
         value.change = value.popu15 / value.popu10;
     }
@@ -42,3 +42,4 @@ rl.on('close', () => {
     });
     console.log(rankingStrings);
 });
+
