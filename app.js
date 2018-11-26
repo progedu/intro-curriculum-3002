@@ -3,41 +3,44 @@ const fs = require('fs');
 const readline = require('readline');
 const rs = fs.ReadStream('./popu-pref.csv');
 const rl = readline.createInterface({ 'input': rs, 'output': {} });
+const prefectureDataMap = new Map(); // key: 都道府県, value: 集計データのオブジェクト
 
-const prefectureDataMap = new Map(); // key: 都道府県 value: 集計データのオブジェクト
-rl.on('line', (line) => {
-    const columns = line.split(',');
-    const year = columns[0];
+rl.on('line', (lineString) => {
+    const columns = lineString.split(',');
+    const year = parseInt(columns[0]);
     const prefecture = columns[2];
-    const popu = columns[7];
-    if (year === '2010' || year === '2015') {
+    const population_15_to_19 = parseInt(columns[7]);
+    
+    if(year === 2010 || year === 2015){
         let value = prefectureDataMap.get(prefecture);
-        if (!value) {
+        if(!value){
             value = {
-                popu10: 0,
-                popu15: 0,
+                population_2010_age_15_to_19: 0,
+                population_2015_age_15_to_19: 0,
                 change: null
             };
         }
-        if (year === '2010') {
-            value.popu10 += parseInt(popu);
+        if( year === 2010) {
+            value.population_2010_age_15_to_19 += population_15_to_19;
         }
-        if (year === '2015') {
-            value.popu15 += parseInt(popu);
+        if( year === 2015) {
+            value.population_2015_age_15_to_19 += population_15_to_19;
         }
         prefectureDataMap.set(prefecture, value);
     }
 });
+
 rl.resume();
+
 rl.on('close', () => {
-    for (let [key, value] of prefectureDataMap) {
-        value.change = value.popu15 / value.popu10;
+    for( let [key, value] of prefectureDataMap) {
+        value.change = value.population_2015_age_15_to_19 / value.population_2010_age_15_to_19;
     }
     const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map(([key, value]) => {
-        return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    const rankingStrings = rankingArray.map( ([key, value], rank_number) => {
+        return "減少率" + (rank_number + 1) + "位：" + key + "(変化率 = " + value.change + "): " + value.population_2010_age_15_to_19 + ' => ' + value.population_2015_age_15_to_19;
     });
     console.log(rankingStrings);
 });
