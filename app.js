@@ -40,7 +40,6 @@ rl.on('close', () => {
     });
     const rankingResult = rankingStrings.map((e, i) => {
         let result;
-        let number;
         if (i < 9) {
             result = '第0' + (i + 1) + '位 ' + e;
         } else {
