@@ -11,14 +11,9 @@ rl.on('line', (line) => {
     const prefecture = columns[2];
     const popu = columns[7];
     if (year === '2010' || year === '2015') {
-        let value = prefectureDataMap.get(prefecture);
-        if (!value) {
-            value = {
-                popu10: 0,
-                popu15: 0,
-                change: null
-            };
-        }
+        // getOrElse
+        let value = prefectureDataMap.get(prefecture) || {popu10: 0, popu15: 0, change: null};
+        
         if (year === '2010') {
             value.popu10 += parseInt(popu);
         }
@@ -29,14 +24,16 @@ rl.on('line', (line) => {
     }
 });
 rl.on('close', () => {
-    for (let [key, value] of prefectureDataMap) {
+    const rankingArray = Array.from(prefectureDataMap,([key, value]) => {
         value.change = value.popu15 / value.popu10;
-    }
-    const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+        return [key, value];
+    }).sort((pair1, pair2) => {
+        return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map(([key, value]) => {
-        return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+
+    const rankingStrings = rankingArray.map(([key, value], index) => {
+
+        return index + 1 + '位: ' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
     });
     console.log(rankingStrings);
 });
