@@ -33,10 +33,12 @@ rl.on('close', () => {
         value.change = value.popu15 / value.popu10;
     }
     const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
-    });
-    const rankingStrings = rankingArray.map(([key, value]) => {
-        return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
-    });
-    console.log(rankingStrings);
+    return pair1[1].change - pair2[1].change;
+  });
+  // ここのmapは配列をkey,valueで受け取り、更に整形できる関数Mapとは違う
+  const rankingStrings = rankingArray.map(([key, value], i) => {
+    i = i + 1;
+    return i + '位' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  })
+  console.log(rankingStrings);
 });
