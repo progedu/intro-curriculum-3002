@@ -21,6 +21,7 @@ rl.on('line', (lineString) => {
     if (year === 2010) {
       value.popu10 = popu;
     }
+
     if (year === 2015) {
       value.popu15 = popu;
     }
@@ -32,10 +33,10 @@ rl.on('close', () => {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
-  });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
-  });
-  console.log(rankingStrings);
+    return pair1[1].change - pair2[1].change;
+});
+const rankingStrings = rankingArray.map(([key, value], i) => {
+    return '減少率ランキング' + (i+1) + '位' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+});
+console.log(rankingStrings);
 });
