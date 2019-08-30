@@ -32,10 +32,16 @@ rl.on('close', () => {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  const rankingStrings = rankingArray.map(([key, value], index) => {
+    //変化率を百分率に変換、小数点以下2ケタまで。100%以上と未満で切り出し桁数を切り替え
+    const changePercent = value.change >= 1 ? String(value.change * 100).slice(0, 6) + '%' : String(value.change * 100).slice(0, 5) + '%'
+    //人口の数値はnumber.toLocaleStringで3ケタ区切りに
+    //String.padStartとString.padEndでコラム位置を揃えて見やすく
+    return String(index + 1).padStart(2) + '位:' + String(key).padEnd(4, '　') +
+      ': ' + value.popu10.toLocaleString('ja-JP').padStart(7) + ' => ' + value.popu15.toLocaleString('ja-JP').padStart(7) +
+      ' 変化率:' + changePercent.padStart(8);
   });
   console.log(rankingStrings);
 });
