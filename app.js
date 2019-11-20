@@ -38,5 +38,15 @@ rl.on('close', () => {
     const rankingStrings = rankingArray.map(([key, value]) => {
         return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
     });
-    console.log(rankingStrings);
+    const rankingResult = rankingStrings.map((e, i) => { //順位付け
+        let result;
+        if (i < 9) {
+            result = '第0' + (i + 1) + '位 ' + e;
+        } else {
+            result = '第' + (i + 1) + '位 ' + e;
+        } 
+        
+        return result;
+    });
+    console.log(rankingResult);
 });
