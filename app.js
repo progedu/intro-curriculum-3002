@@ -31,11 +31,13 @@ rl.on('close', () => {
   for (let [key, value] of prefectureDataMap) { 
     value.change = value.popu15 / value.popu10;
   }
+  // 並び順を変化率の昇順にする
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  // 要素の添字も渡す
+  const rankingStrings = rankingArray.map(([key, value], i) => {
+    return '第' + (i + 1) + '位: ' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
 });
