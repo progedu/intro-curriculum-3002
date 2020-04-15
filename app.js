@@ -29,14 +29,15 @@ rl.on('line', (line) => {
     }
 });
 rl.on('close', () => {
-    for (let [key, value] of prefectureDataMap) {
-        value.change = value.popu15 / value.popu10;
+    for (let [key, value] of prefectureDataMap) { 
+      value.change = value.popu15 / value.popu10;
     }
     const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-        return pair2[1].change - pair1[1].change;
+      return pair1[1].change - pair2[1].change;
     });
-    const rankingStrings = rankingArray.map(([key, value]) => {
-        return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    const rankingStrings = rankingArray.map(([key, value], i) => {
+      let per = (value.change - 1) * 100;
+      return (i+1) + "位: " + key + ' (' + value.popu10 + '人から' + value.popu15 + '人　変化率: ' + per.toFixed(1) + ' %';
     });
     console.log(rankingStrings);
 });
