@@ -26,6 +26,7 @@ rl.on('line', (lineString) => {
     }
     prefectureDataMap.set(prefecture, value);
   }
+});
 
 rl.on('close', () => {
   for (let [key, value] of prefectureDataMap) { 
