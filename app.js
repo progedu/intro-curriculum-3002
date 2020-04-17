@@ -5,12 +5,12 @@ const rs = fs.createReadStream('./popu-pref.csv');
 const rl = readline.createInterface({ 'input': rs, 'output': {} });
 const prefectureDataMap = new Map(); // key: 都道府県 value: 集計データのオブジェクト
 rl.on('line', (lineString) => {
-  const columns = lineString.split(',');
+  const columns = lineString.split(',');  // 文字列をカンマで分割し配列化（['集計年','都道府県','10~14歳の人口','15~19歳の人口']）
   const year = parseInt(columns[0]);
   const prefecture = columns[1];
   const popu = parseInt(columns[3]);
   if (year === 2010 || year === 2015) {
-    let value = prefectureDataMap.get(prefecture);
+    let value = prefectureDataMap.get(prefecture);  // 連想配列のkeyを取得。初回は未設定のためundifined
     if (!value) {
       value = {
         popu10: 0,
@@ -32,10 +32,10 @@ rl.on('close', () => {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  const rankingStrings = rankingArray.map(([key, value], i) => {
+    return '第' + (i + 1) + '位_' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
 });
