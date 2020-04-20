@@ -27,6 +27,8 @@ rl.on('line', (lineString) => {
     prefectureDataMap.set(prefecture, value);
   }
 });
+
+//以下変更した
 rl.on('close', () => {
   for (let [key, value] of prefectureDataMap) { 
     value.change = value.popu15 / value.popu10;
