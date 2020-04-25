@@ -8,8 +8,8 @@ const prefectureDataMap = new Map(); // key: 都道府県 value: 集計データ
 rl.on('line', (line) => {
     const columns = line.split(',');
     const year = columns[0];
-    const prefecture = columns[2];
-    const popu = columns[7];
+    const prefecture = columns[1];
+    const popu = columns[3];
     if (year === '2010' || year === '2015') {
         let value = prefectureDataMap.get(prefecture);
         if (!value) {
@@ -20,24 +20,25 @@ rl.on('line', (line) => {
             };
         }
         if (year === '2010') {
-            value.popu10 += parseInt(popu);
+            value.popu10 = parseInt(popu);
         }
         if (year === '2015') {
-            value.popu15 += parseInt(popu);
+            value.popu15 = parseInt(popu);
         }
         prefectureDataMap.set(prefecture, value);
     }
 });
 rl.on('close', () => {
     for (let [key, value] of prefectureDataMap) {
-        value.change = value.popu15 / value.popu10;
+        value.change = (value.popu15*100) / value.popu10;
     }
     const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-        return pair1[1].change - pair2[1].change;
+        return  pair1[1].change - pair2[1].change ;
     });
     const rankingStrings = rankingArray.map(([key, value],e) => {
-        return (e+1) + '位　' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+        return (e+1) + '位　' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 人 変化率:' + value.change + ' %';
     });
     console.log('   ・2010年から2015年にかけての15~19歳の人口推移ワーストランキング')
     console.log(rankingStrings);
+  
 });
