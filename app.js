@@ -38,6 +38,5 @@ rl.on('close', () => {
     return  (i + 1) + '位 ' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
-});
 
-// 提出
+});
