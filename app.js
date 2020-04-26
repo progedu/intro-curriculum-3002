@@ -39,3 +39,5 @@ rl.on('close', () => {
   });
   console.log(rankingStrings);
 });
+
+// 提出
