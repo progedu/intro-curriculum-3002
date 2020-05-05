@@ -32,10 +32,16 @@ rl.on('close', () => {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  const rankingStrings = rankingArray.map(([key, value],i) => {
+    return (i + 1 )+ '位 ' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
+
+  const assert = require('assert');
+  assert.equal(rankingStrings[0], '1位 岩手県: 64637=>57619 変化率:0.8914244163559571', `1位は岩手県でしたが、実際は${rankingStrings[0] }でした`);
+  assert.equal(rankingStrings[9], '10位 島根県: 32899=>30642 変化率:0.9313960910665978', `10位は島根県でしたが、実際は${rankingStrings[0] }でした`);
+  console.log('すべてのテストを通過しました');
+
 });
