@@ -27,15 +27,17 @@ rl.on('line', (lineString) => {
     prefectureDataMap.set(prefecture, value);
   }
 });
+
 rl.on('close', () => {
-  for (let [key, value] of prefectureDataMap) { 
-    value.change = value.popu15 / value.popu10;
-  }
-  const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
-  });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
-  });
-  console.log(rankingStrings);
+    for (let [key, value] of prefectureDataMap) {
+        value.change = value.popu15 / value.popu10;
+    }
+    const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
+        return pair1[1].change - pair2[1].change;
+    });
+    // ['a', 'b'].map((e, i) => {return e + i; }
+    const rankingStrings = rankingArray.map(([key, value],index) => {
+        return index + 1  + '位は' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    });
+    console.log(rankingStrings);
 });
