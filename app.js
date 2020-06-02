@@ -8,8 +8,8 @@ const prefectureDataMap = new Map(); // key: 都道府県 value: 集計データ
 rl.on('line', (line) => {
     const columns = line.split(',');
     const year = columns[0];
-    const prefecture = columns[2];
-    const popu = columns[7];
+    const prefecture = columns[1];
+    const popu = columns[3];
     if (year === '2010' || year === '2015') {
         let value = prefectureDataMap.get(prefecture);
         if (!value) {
