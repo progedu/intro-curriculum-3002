@@ -28,14 +28,32 @@ rl.on('line', (lineString) => {
   }
 });
 rl.on('close', () => {
-  for (let [key, value] of prefectureDataMap) { 
+  for (let [key, value] of prefectureDataMap) {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  const rankingStrings = rankingArray.map(([key, value], ranking ) => {
+    ranking = ranking + 1 ;
+    let tail = "";
+    if ( ranking === 1 )
+    {
+      tail= "st" ;
+    }
+    else if ( ranking === 2 )
+    {
+      tail= "nd" ;
+    }
+    else if ( ranking === 3 )
+    {
+      tail= "rd" ;
+    }
+    else
+    {
+      tail= "th" ;
+    }
+    return ranking + tail+ " place , " + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
 });
