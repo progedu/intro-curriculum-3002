@@ -32,10 +32,16 @@ rl.on('close', () => {
     value.change = value.popu15 / value.popu10;
   }
   const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
+    return pair1[1].change - pair2[1].change;
   });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+  const rankingStrings = rankingArray.map(([key, value], i) => {
+    if (i === 0) {
+    return `( ；´Д｀) No.${i + 1} ${key}: ${value.popu10}=>${value.popu15}変化率:${value.change} (ｰ ｰ;) 大丈夫!?`;
+    }
+    if (i === 46) {
+    return `いいね No.${i + 1} ${key}: ${value.popu10}=>${value.popu15}変化率:${value.change} 最高 やるじゃん`;
+    }
+    return `No.${i + 1} ${key}: ${value.popu10}=>${value.popu15}変化率:${value.change}`;
   });
   console.log(rankingStrings);
 });
