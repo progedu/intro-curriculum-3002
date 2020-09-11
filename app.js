@@ -35,7 +35,8 @@ rl.on('close', () => {
     return pair1[1].change - pair2[1].change;
   });
   const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    return (i + 1) + '位 ' + //ここを入れ忘れた
+    key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
 });
