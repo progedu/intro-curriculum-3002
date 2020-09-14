@@ -17,15 +17,10 @@ rl.on('line', lineString => {
   const prefecture = columns[1]; // 都道府県名
   const popu = parseInt(columns[3]); // 15～19歳の人口
   if (year === 2010 || year === 2015) {
-    // データがなかったらデータを初期化
-    let value = prefectureDataMap.get(prefecture);
     // 都道府県ごとのデータを作る
-    if (!value) {
-      value = {
-        popu10: 0,
-        popu15: 0,
-        change: null
-      };
+    let value = prefectureDataMap.get(prefecture);
+    // データがなかったらデータを初期化
+    if (!value) { value = { popu10: 0, popu15: 0, change: null };
     }
     if (year === 2010) {
       value.popu10 = popu;
