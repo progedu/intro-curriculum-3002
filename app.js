@@ -37,7 +37,7 @@ rl.on("close", () => {
   const rankingStrings = rankingArray.map(([key, value], rankingNum) => {
     return (
       ++rankingNum +
-      "位 " +
+      "位  " +
       key +
       ": " +
       value.popu10 +
