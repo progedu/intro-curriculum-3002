@@ -35,7 +35,12 @@ rl.on('close', () => {
     return pair2[1].change - pair1[1].change;
   });
   const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    return key + 
+    ': ' + 
+    value.popu10 + 
+    '=>' + value.popu15 + 
+    ' 変化率:' + 
+    value.change;
   });
   console.log(rankingStrings);
 });
