@@ -1,41 +1,50 @@
 'use strict';
+
 const fs = require('fs');
 const readline = require('readline');
+
 const rs = fs.createReadStream('./popu-pref.csv');
-const rl = readline.createInterface({ 'input': rs, 'output': {} });
-const prefectureDataMap = new Map(); // key: 都道府県 value: 集計データのオブジェクト
+const rl = readline.createInterface({ input: rs, output: {} });
+
+const prefectureData =  new Map();
 rl.on('line', (lineString) => {
-  const columns = lineString.split(',');
-  const year = parseInt(columns[0]);
-  const prefecture = columns[1];
-  const popu = parseInt(columns[3]);
-  if (year === 2010 || year === 2015) {
-    let value = prefectureDataMap.get(prefecture);
-    if (!value) {
+  const split = lineString.split(',');
+  let year = parseInt(split[0]);
+  let prefecture = split[1];
+  let popu = parseInt(split[3])
+  
+  if (year === 2010 || year ===  2015) {
+    let value = prefectureData.get(prefecture);
+    if(!value) {
       value = {
         popu10: 0,
         popu15: 0,
         change: null
-      };
-    }
-    if (year === 2010) {
+      }
+    };
+    if(year===2010) {
       value.popu10 = popu;
     }
-    if (year === 2015) {
+    if(year===2015) {
       value.popu15 = popu;
     }
-    prefectureDataMap.set(prefecture, value);
+    prefectureData.set(prefecture, value)
   }
-});
+  // console.log(prefectureData)
+})
 rl.on('close', () => {
-  for (let [key, value] of prefectureDataMap) { 
-    value.change = value.popu15 / value.popu10;
+  for(let [key, val] of prefectureData) {
+    val.change = val.popu15 / val.popu10
   }
-  const rankingArray = Array.from(prefectureDataMap).sort((pair1, pair2) => {
-    return pair2[1].change - pair1[1].change;
-  });
-  const rankingStrings = rankingArray.map(([key, value]) => {
-    return key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
-  });
-  console.log(rankingStrings);
-});
+  // console.log(prefectureData);
+  const rankingArray = Array.from(prefectureData).sort((n, m) => {
+    return n[1].change - m[1].change;
+  }) 
+  const ranking = rankingArray.map(([key, val], i) => {
+    return (
+      `${i+1}位 ${key}: ${val.popu10} => ${val.popu15} 変化率: ${val.change}`
+    )
+  })
+  console.log('減少率の順位');
+  console.log(ranking);
+})
