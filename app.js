@@ -35,7 +35,7 @@ rl.on('close', () => {
     return pair1[1].change - pair2[1].change; //pair1がpair2より大きいとき
   });
   const rankingStrings = rankingArray.map(([key, value], index) => {
-    return (index+1) + '位：　' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
+    return (index+1)     + '位：　' + key + ': ' + value.popu10 + '=>' + value.popu15 + ' 変化率:' + value.change;
   });
   console.log(rankingStrings);
 });
